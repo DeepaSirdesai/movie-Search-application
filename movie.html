@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html ng-app="movieSearchApp">
+
+<head>
+    <title>Movie Search</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <style>
+        .container{
+            position:relative;
+            width:70%;
+            height:250px;
+            border-radius:5px;
+            overflow:hidden;
+        }
+        td,h1,th,p,h2{
+            color: aliceblue;
+        }
+        .ss{
+             border: 5px solid grey;
+             border-radius: 5px;
+             height: 20px;
+             width: 40%;
+             padding: 2px 23px 2px 30px;
+             outline: 0;
+            background-color: #f5f5f5;
+            font-family: cursive;
+            font-weight: 400;
+
+        }
+        
+        
+    </style>
+</head>
+
+<body bgcolor="black">
+    <center>
+    <h1>Movie Search Application</h1>
+    <div id="imgGallary" class="container">
+       <img src="animal.jpeg" alt=""width="70%" height="250" />
+        <img src="atrangi.jpeg" alt="" width="70%" height="250" />
+        <img src="bachelor.jpeg" alt="" width="70%"   height="250" />
+        <img src="kantara.jpeg" alt="" width="70%" height="250" />
+        <img src="kgf.jpeg" alt="" width="70%" height="250" />
+        <img src="newyear.jpeg" alt="" width="70%" height="250" />
+    </div>
+</center>
+    <script>
+    (function(){
+            var imgLen = document.getElementById('imgGallary');
+            var images = imgLen.getElementsByTagName('img');
+            var counter = 1;
+    
+            if(counter <= images.length){
+                setInterval(function(){
+                    images[0].src = images[counter].src;
+                    console.log(images[counter].src);
+                    counter++;
+    
+                    if(counter === images.length){
+                        counter = 1;
+                    }
+                },4000);
+            }
+    })();
+    </script>
+    
+    <div ng-controller="MovieController">
+        <br>
+        <br>
+        <center><input type="text" class="ss" ng-model="searchQuery" placeholder="Enter movie title" ng-keypress="handle($event)"><br>
+            <br>
+       <!--<button ng-click="searchMovies()">Search</button>-->
+            <table border="2" ng-show="movies.length>0">
+                <tr >
+                    <th>slno</th>
+                    <th>movie</th>
+                    <th>year</th>
+                    <th>Details</th>
+                </tr>
+                <tr ng-repeat="movie in movies">
+                    <td>{{$index+1}}</td> 
+                    <td>{{ movie.Title }}</td>
+                    <td>{{ movie.Year }}</td>
+                    <td><button ng-click="showMovieDetails(movie.imdbID)">View Details</button></td>
+                </tr>
+            </table>
+            <div ng-if="errorMessage">{{errorMessage}}</div>
+                
+         
+       <!-- <div ng-repeat="movie in movies">
+            <h2>{{ movie.Title }} ({{ movie.Year }})</h2>
+            
+           
+            <button ng-click="showMovieDetails(movie.imdbID)">View Details</button>
+            
+        
+        </div>
+        -->
+
+        <div ng-if="selectedMovie">
+            <h2>{{ selectedMovie.Title }}</h2>
+            <p>{{ selectedMovie.Plot }}</p>
+            <p>Released: {{ selectedMovie.Released }}</p>
+            <p>Genre: {{ selectedMovie.Genre }}</p>
+            <p>Rating: {{ selectedMovie.imdbRating }}</p>
+            <!-- Add more details as needed -->
+        </div>
+    </div>
+</center>
+</body>
+
+</html>
